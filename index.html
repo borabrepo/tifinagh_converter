@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ⵜⵉⴼⵉⵏⴰⵖ — محوّل الكتابة</title>
+<title>ⵜⵉⴼⵉⵏⴰⵖ — Tifinagh Converter</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Noto+Sans+Tifinagh&display=swap" rel="stylesheet">
@@ -21,95 +21,85 @@
   color-scheme:dark;
   --bg:#0F1D2A; --panel:#16293A; --line:#27435C;
   --text:#E9DCC3; --muted:#A9B7C4; --strong:#FFFFFF; --faint:#6D8399;
-  --placeholder:#547089;
-  --stage-a:#1B3145; --stage-b:#16293A;
+  --placeholder:#547089; --stage-a:#1B3145; --stage-b:#16293A;
   --gold:#E8B93A; --on-gold:#1A1206; --clay:#C8462F; --leaf:#3FA37A;
-  --seg-on:#27435C; --chip-line:#27435C;
-  --r:14px;
+  --seg-on:#27435C; --r:14px;
 }
 :root[data-theme="light"]{
   color-scheme:light;
   --bg:#F3F5F4; --panel:#FFFFFF; --line:#D6DEE4;
   --text:#14222E; --muted:#5C6E7C; --strong:#0B141C; --faint:#93A3AF;
-  --placeholder:#93A3AF;
-  --stage-a:#FFFFFF; --stage-b:#EEF2F4;
+  --placeholder:#93A3AF; --stage-a:#FFFFFF; --stage-b:#EEF2F4;
   --gold:#A9781B; --on-gold:#FFFFFF; --clay:#B33F2A; --leaf:#1F7D5C;
-  --seg-on:#E3E9ED; --chip-line:#D6DEE4;
+  --seg-on:#E3E9ED;
 }
 @media (prefers-color-scheme:light){
   :root[data-theme="auto"]{
     color-scheme:light;
     --bg:#F3F5F4; --panel:#FFFFFF; --line:#D6DEE4;
     --text:#14222E; --muted:#5C6E7C; --strong:#0B141C; --faint:#93A3AF;
-    --placeholder:#93A3AF;
-    --stage-a:#FFFFFF; --stage-b:#EEF2F4;
+    --placeholder:#93A3AF; --stage-a:#FFFFFF; --stage-b:#EEF2F4;
     --gold:#A9781B; --on-gold:#FFFFFF; --clay:#B33F2A; --leaf:#1F7D5C;
-    --seg-on:#E3E9ED; --chip-line:#D6DEE4;
+    --seg-on:#E3E9ED;
   }
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{
-  background:var(--bg); color:var(--text);
-  font-family:"Tajawal","Segoe UI",system-ui,sans-serif;
-  font-weight:300; line-height:1.65; -webkit-text-size-adjust:100%;
-  transition:background .2s ease,color .2s ease;
-}
-.tif{font-family:"Noto Sans Tifinagh","Tifinagh","Ebrima","Segoe UI",sans-serif;}
+body{background:var(--bg);color:var(--text);
+  font-family:"Tajawal","Segoe UI",system-ui,sans-serif;font-weight:300;line-height:1.65;
+  -webkit-text-size-adjust:100%;transition:background .2s,color .2s}
+.tif{font-family:"Noto Sans Tifinagh","Tifinagh","Ebrima","Segoe UI",sans-serif}
 .wrap{max-width:760px;margin:0 auto;
   padding:calc(18px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
 
-header{display:flex;align-items:center;gap:12px;padding:6px 0 14px;flex-wrap:wrap}
-.mark{
-  width:44px;height:44px;flex:0 0 44px;border-radius:12px;display:grid;place-items:center;
-  background:var(--clay);color:#fff;font-size:26px;line-height:1;
-}
-header h1{font-size:19px;font-weight:700;margin:0;letter-spacing:.2px}
+header{display:flex;align-items:flex-start;gap:12px;padding:6px 0 12px;flex-wrap:wrap}
+.mark{width:44px;height:44px;flex:0 0 44px;border-radius:12px;display:grid;place-items:center;
+  background:var(--clay);color:#fff;font-size:26px;line-height:1}
+.htext{flex:1 1 220px;min-width:0}
+header h1{font-size:19px;font-weight:700;margin:0}
 header p{margin:2px 0 0;font-size:13px;color:var(--muted)}
-.htext{flex:1 1 200px;min-width:0}
-.theme{margin-inline-start:auto}
-.theme button{padding:7px 10px;font-size:12.5px}
+.flag{width:19px;height:13px;vertical-align:-2px;margin-inline-start:5px;border-radius:2px;
+  box-shadow:0 0 0 1px rgba(128,128,128,.35)}
+.bars{display:flex;gap:8px;flex-wrap:wrap;width:100%;margin-top:2px}
 
-.stage{
-  background:linear-gradient(180deg,var(--stage-a),var(--stage-b));
-  border:1px solid var(--line);border-radius:var(--r);
-  padding:16px;min-height:120px;display:flex;flex-direction:column;justify-content:center;
-}
-#out{font-size:34px;line-height:1.75;direction:ltr;text-align:left;color:var(--strong);word-spacing:.55em;
-  word-break:break-word;min-height:58px;unicode-bidi:isolate}
+.stage{background:linear-gradient(180deg,var(--stage-a),var(--stage-b));
+  border:1px solid var(--line);border-radius:var(--r);padding:16px;min-height:120px;
+  display:flex;flex-direction:column;justify-content:center}
+#out{font-size:34px;line-height:1.75;word-spacing:.55em;color:var(--strong);
+  word-break:break-word;min-height:58px;unicode-bidi:isolate;direction:ltr;text-align:left}
+#out.rtl{direction:rtl;text-align:right;word-spacing:normal}
 #out.empty{color:var(--faint);font-size:22px}
 .stage-bar{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
 .count{font-size:12px;color:var(--muted);margin-inline-start:auto}
 
-textarea{
-  width:100%;margin-top:12px;background:var(--panel);color:var(--text);
-  border:1px solid var(--line);border-radius:var(--r);
-  padding:14px;font-family:inherit;font-size:19px;font-weight:400;line-height:2.1;
-  min-height:110px;resize:vertical;caret-color:var(--clay);
-}
+textarea{width:100%;margin-top:12px;background:var(--panel);color:var(--text);
+  border:1px solid var(--line);border-radius:var(--r);padding:14px;
+  font-family:inherit;font-size:19px;font-weight:400;line-height:2.1;
+  min-height:110px;resize:vertical;caret-color:var(--clay)}
+textarea.tif{font-size:22px}
 textarea::placeholder{color:var(--placeholder)}
-textarea:focus,button:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+textarea:focus,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-button{
-  font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;
-  background:var(--panel);color:var(--text);
-  border:1px solid var(--line);border-radius:10px;padding:9px 14px;
-}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+button{font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;
+  background:var(--panel);color:var(--text);border:1px solid var(--line);
+  border-radius:10px;padding:9px 14px}
 button:hover{border-color:var(--gold)}
 button.primary{background:var(--gold);color:var(--on-gold);border-color:var(--gold);font-weight:700}
 .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{border:0;border-radius:0;background:transparent;padding:9px 13px}
 .seg button[aria-pressed="true"]{background:var(--seg-on);color:var(--strong)}
+.seg.sm button{padding:7px 10px;font-size:12.5px}
+[hidden]{display:none !important}
 
-/* ===== أدوات التحرير وشريط الموضع ===== */
 .editor{margin-top:10px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:10px}
 .editor .lbl{font-size:12.5px;color:var(--muted);margin-bottom:8px}
 .keys{display:flex;gap:6px;flex-wrap:wrap}
 .keys button{padding:8px 11px;min-width:40px;font-size:16px;font-weight:400;line-height:1.2}
 .keys button.tiny{font-size:13px;min-width:auto;padding:8px 10px}
-.keys .dia{font-size:20px;padding-block:6px}
-.strip{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin-top:10px;
+.keys button.dia{font-size:20px;padding-block:6px}
+.keys button.tk{font-size:20px;min-width:36px;padding:6px 8px}
+.strip{display:flex;flex-wrap:wrap;align-items:stretch;margin-top:10px;
   border-top:1px dashed var(--line);padding-top:10px;min-height:44px}
 .slot{width:12px;flex:0 0 12px;background:transparent;border:0;padding:0;position:relative;border-radius:3px}
 .slot::after{content:"";position:absolute;inset:6px 5px;background:var(--line);border-radius:2px}
@@ -120,9 +110,7 @@ button.primary{background:var(--gold);color:var(--on-gold);border-color:var(--go
 .cell:hover{background:var(--seg-on)}
 .cell.sp{color:var(--faint);font-size:14px;min-width:26px;background:var(--seg-on)}
 
-h2{font-size:15px;font-weight:700;margin:26px 0 8px;color:var(--text)}
-h2 span{color:var(--gold)}
-
+h2{font-size:15px;font-weight:700;margin:26px 0 8px}
 .opts{border:1px solid var(--line);border-radius:var(--r);padding:6px 14px;background:var(--panel)}
 .opt{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
 .opt:last-child{border-bottom:0}
@@ -132,23 +120,23 @@ h2 span{color:var(--gold)}
 
 .trace{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .pair{border:1px solid var(--line);border-radius:8px;padding:4px 8px;text-align:center;background:var(--panel)}
-.pair i{display:block;font-style:normal;font-size:12px;color:var(--muted);direction:ltr}
+.pair i{display:block;font-style:normal;font-size:12px;color:var(--muted)}
 .pair b{display:block;font-weight:400;font-size:19px;color:var(--strong)}
 .pair.ins{border-color:var(--leaf)}
 .pair.ins i{color:var(--leaf)}
 .pair.raw b{color:var(--faint)}
 
 table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
-th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:right}
+th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:start}
 th{color:var(--gold);font-weight:500;font-size:12.5px}
 td.g{font-size:22px;color:var(--strong);text-align:center;width:56px}
-td.l{direction:ltr;text-align:left;font-size:14px}
 td.u{font-size:11.5px;color:var(--muted);direction:ltr;text-align:left}
+td.l{direction:ltr;text-align:left}
 
 details{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:0 14px;margin-top:10px}
-details summary{cursor:pointer;padding:12px 0;font-weight:500;font-size:14.5px;list-style:none}
-details summary::-webkit-details-marker{display:none}
-details summary::after{content:"+";float:left;color:var(--gold)}
+summary{cursor:pointer;padding:12px 0;font-weight:500;font-size:14.5px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";float:inline-end;color:var(--gold)}
 details[open] summary::after{content:"–"}
 details .body{padding-bottom:12px;font-size:14px;color:var(--muted)}
 details ul{padding-inline-start:18px;margin:6px 0}
@@ -156,7 +144,8 @@ details li{margin:4px 0}
 .k{color:var(--strong);font-weight:500}
 
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.chip{background:transparent;border:1px dashed var(--chip-line);border-radius:20px;padding:7px 13px;font-size:13.5px;color:var(--muted)}
+.chip{background:transparent;border:1px dashed var(--line);border-radius:20px;
+  padding:7px 13px;font-size:13.5px;color:var(--muted)}
 .chip:hover{color:var(--strong);border-color:var(--gold)}
 .note{font-size:12.5px;color:var(--muted);margin-top:10px}
 footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
@@ -170,130 +159,229 @@ footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-si
 <header>
   <div class="mark tif">ⵣ</div>
   <div class="htext">
-    <h1>محوّل تيفيناغ</h1>
-    <p>اكتب بالعربية أو بالحروف اللاتينية (نطق فرنسي) — تظهر الكتابة بتيفيناغ فوراً وفق معيار IRCAM</p>
+    <h1 id="t-title"></h1>
+    <p id="t-sub"></p>
   </div>
-  <div class="seg theme" role="group" aria-label="المظهر">
-    <button data-theme="auto" aria-pressed="true">مظهر الجهاز</button>
-    <button data-theme="light" aria-pressed="false">فاتح</button>
-    <button data-theme="dark" aria-pressed="false">داكن</button>
+  <div class="bars">
+    <div class="seg sm" id="langseg" role="group">
+      <button data-lang="ar" aria-pressed="true">العربية</button>
+      <button data-lang="fr" aria-pressed="false">Français</button>
+      <button data-lang="en" aria-pressed="false">English</button>
+    </div>
+    <div class="seg sm" id="themeseg" role="group">
+      <button data-theme="auto" aria-pressed="true"></button>
+      <button data-theme="light" aria-pressed="false"></button>
+      <button data-theme="dark" aria-pressed="false"></button>
+    </div>
   </div>
 </header>
+
+<div class="row" style="margin-top:0">
+  <div class="seg" id="dirseg" role="group">
+    <button data-dir="to" aria-pressed="true"></button>
+    <button data-dir="from" aria-pressed="false"></button>
+  </div>
+</div>
 
 <div class="stage">
   <div id="out" class="tif empty">ⴰⵣⵓⵍ</div>
   <div class="stage-bar">
-    <button class="primary" id="copy">نسخ النص</button>
-    <button id="clear">مسح</button>
+    <button class="primary" id="copy"></button>
+    <button id="clear"></button>
     <span class="count" id="count"></span>
   </div>
 </div>
 
-<textarea id="in" dir="auto" placeholder="مثال: azul fellawen — أو — أزول فلاون" autocomplete="off" spellcheck="false"></textarea>
+<textarea id="in" dir="auto" autocomplete="off" spellcheck="false"></textarea>
 
 <div class="editor">
-  <div class="lbl">حرّك مؤشّر الكتابة أو اضغط على أي حرف في الشريط لتضع المؤشّر بعده، ثم أضف الحركة أو الحرف.</div>
+  <div class="lbl" id="t-edit"></div>
   <div class="keys" id="keys"></div>
+  <div class="keys" id="tifkeys" hidden style="margin-top:8px"></div>
   <div class="strip" id="strip" dir="rtl"></div>
 </div>
 
 <div class="row">
-  <div class="seg" role="group" aria-label="لغة الإدخال">
-    <button data-mode="auto" aria-pressed="true">تلقائي</button>
-    <button data-mode="ar" aria-pressed="false">عربية</button>
-    <button data-mode="lat" aria-pressed="false">لاتينية</button>
+  <div class="seg" id="modeseg" role="group">
+    <button data-mode="auto" aria-pressed="true"></button>
+    <button data-mode="ar" aria-pressed="false"></button>
+    <button data-mode="lat" aria-pressed="false"></button>
   </div>
-  <button id="trace-toggle" aria-pressed="false">عرض المطابقة حرفاً بحرف</button>
+  <div class="seg" id="targetseg" role="group" hidden>
+    <button data-target="lat-fr" aria-pressed="true"></button>
+    <button data-target="lat-sci" aria-pressed="false"></button>
+    <button data-target="ar" aria-pressed="false"></button>
+  </div>
+  <button id="trace-toggle" aria-pressed="false"></button>
 </div>
 
-<div class="chips">
-  <button class="chip" data-ex="azul fellawen">azul fellawen</button>
-  <button class="chip" data-ex="tamazight n tmurt">tamazight n tmurt</button>
-  <button class="chip" data-ex="Ouarzazate d Tinghir">Ouarzazate d Tinghir</button>
-  <button class="chip" data-ex="أزول فلاون">أزول فلاون</button>
-  <button class="chip" data-ex="تيفيناغ د تامازيغت">تيفيناغ د تامازيغت</button>
-  <button class="chip" data-ex="يالاه ادّو">يالاه ادّو</button>
-</div>
-
+<div class="chips" id="chips"></div>
 <div id="trace" class="trace" hidden></div>
 
-<h2>خيارات <span>المحرك</span></h2>
-<div class="opts">
-  <label class="opt"><input type="checkbox" id="o-schwa" checked><span><b>إدراج ⴻ لفكّ توالي السواكن</b><small>عند التقاء ثلاثة سواكن يُدرج ⴻ بين الثاني والثالث (d-r-s ← ⴷⵔⴻⵙ). أوقفه إن أردت الإملاء المجرّد الذي لا يكتب الشوا.</small></span></label>
-  <label class="opt"><input type="checkbox" id="o-hardg" checked><span><b>قراءة g دائماً ⴳ</b><small>عند إيقافه تُطبَّق القاعدة الفرنسية: g قبل e / i تصير ⵊ، و gue / gui تصير ⴳ.</small></span></label>
-  <label class="opt"><input type="checkbox" id="o-silente" checked><span><b>تجاهل e الصامتة في آخر الكلمة</b><small>Ouarzazate ← ⵡⴰⵔⵣⴰⵣⴰⵜ بدل ⵡⴰⵔⵣⴰⵣⴰⵜⴻ.</small></span></label>
-  <label class="opt"><input type="checkbox" id="o-digits"><span><b>أرقام الدردشة العربية</b><small>3 ← ⵄ، 7 ← ⵃ، 9 ← ⵇ، 5 ← ⵅ.</small></span></label>
-  <label class="opt"><input type="checkbox" id="o-ext"><span><b>الحروف الموسّعة لدى IRCAM</b><small>تفعيل ⴲ ⵝ ⴸ ⴺ ⴴ والمركّبات ⴷⵊ ⵜⵙ ⴷⵣ: اكتب th dh ḍh bh gy. اللائحة الأساسية (٢٧ حرفاً) لا تتضمّنها.</small></span></label>
-  <label class="opt"><input type="checkbox" id="o-al"><span><b>حذف «الـ» التعريف من المدخل العربي</b><small>«الامارگ» ← ⴰⵎⴰⵔⴳ. عند الإيقاف تُنقل حرفياً ⴰⵍ-.</small></span></label>
-</div>
+<h2 id="t-h-opts"></h2>
+<div class="opts" id="opts"></div>
 
-<h2>القواعد <span>المطبَّقة</span></h2>
+<h2 id="t-h-rules"></h2>
+<div id="rules"></div>
 
-<details>
-  <summary>مراحل المعالجة الأربع</summary>
-  <div class="body">
-    <ul>
-      <li><span class="k">التنظيف والتوحيد:</span> توحيد يونيكود (NFC)، حذف التطويل ـ، خفض حالة الحروف مع الحفاظ على نقاط التفخيم (ḍ ṣ ṭ ẓ ṛ ḥ)، وقبول الكتابة بالنقطة اللاحقة (d. s. t. z. r. h.).</li>
-      <li><span class="k">المطابقة الجَشِعة:</span> تُجرَّب المقاطع الأطول أولاً (ghw ← ⵖⵯ ثم gh ← ⵖ ثم g ← ⴳ) فلا تتفكك ch و kh و ou إلى حروف مفردة.</li>
-      <li><span class="k">القواعد الصوتية:</span> الشدّة، التمييز بين u/w و i/y، وإدراج ⴻ.</li>
-      <li><span class="k">الإخراج:</span> نطاق تيفيناغ في يونيكود U+2D30–U+2D7F.</li>
-    </ul>
-  </div>
-</details>
-
-<details>
-  <summary>الشدّة والتضعيف — ولا استثناء لـ ⴳ</summary>
-  <div class="body">
-    التضعيف (التوتير) في تيفيناغ المعيارية يُكتب بتكرار الحرف نفسه، ولا علامة خاصة له في لائحة IRCAM، بما فيها ⴳ:
-    <span class="k">ⵜⴰⵎⵎⵏⵜ</span> (عسل)، <span class="k">ⴱⴷⴷⵍ</span>، <span class="k">ⵉⵎⵉ / ⵉⵎⵎⵉ</span>، و<span class="k">ⴳ ← ⴳⴳ</span>.
-    في اللاتينية يبقى الحرف المكرّر مكرّراً (tt ← ⵜⵜ)، وفي العربية تُوسَّع الشدة U+0651 إلى حرفين، ولا يُدرج ⴻ داخل الحرف المشدَّد.
-    <br><br>
-    ما يخصّ ⴳ فعلاً برمز خاص شيئان مختلفان عن التضعيف:
-    <ul>
-      <li><span class="k">ⴳⵯ</span> (ⴳ + تامّاطارت ⵯ U+2D6F) لصوت gʷ المفخّم بالشفتين، ومثله ⴽⵯ، ثم ⵇⵯ ⵅⵯ ⵖⵯ في اللائحة الموسّعة. اكتب <span class="k">gw</span> فيخرج ⴳⵯ، و<span class="k">ggw</span> فيخرج ⴳⴳⵯ.</li>
-      <li><span class="k">ⴴ</span> (yaghh U+2D34) حرف موسَّع لصوت ʝ (الجيم الرخوة)، لا لتضعيف ⴳ. اكتب <span class="k">gy</span> بعد تفعيل خيار الحروف الموسّعة.</li>
-    </ul>
-    أمّا «القبّعة» فوق ⵏ المضعَّفة فهي عُرف في بعض كتابات النيوتيفيناغ لتمييزها عن ⵍ، وليست من قواعد IRCAM.
-  </div>
-</details>
-
-<details>
-  <summary>التمييز بين u/w و i/y</summary>
-  <div class="body">
-    <ul>
-      <li>اللاتينية: <span class="k">w ← ⵡ</span> دائماً، و<span class="k">ou ← ⵓ</span> إلا إذا تلاها حرف علة فتصير ⵡ (Ouarzazate ← ⵡⴰⵔⵣⴰⵣⴰⵜ). و<span class="k">y</span> صامتة ⵢ إذا جاورت حرف علة، وإلا ⵉ.</li>
-      <li>العربية: «و» في أول الكلمة أو بعد حرف علة ← ⵡ (والو ← ⵡⴰⵍⵓ)، وبعد ساكن ← ⵓ (أزول ← ⴰⵣⵓⵍ). وكذلك «ي»: يالاه ← ⵢⴰⵍⴰⵀ، تيفيناغ ← ⵜⵉⴼⵉⵏⴰⵖ.</li>
-      <li>ألف الوصل في «أوسان» تُعامل حاملاً للهمزة فتُقرأ ⵓⵙⴰⵏ لا ⴰⵡⵙⴰⵏ.</li>
-    </ul>
-  </div>
-</details>
-
-<details>
-  <summary>الحركات والتاء المربوطة</summary>
-  <div class="body">
-    الفتحة ← ⴰ، الضمة ← ⵓ، الكسرة ← ⵉ. والهمزة المكسورة إ تُقرأ ⵉ لا ⴰ (إمازيغن ← ⵉⵎⴰⵣⵉⵖⵏ، إيلا ← ⵉⵍⴰ) بينما أ وا وآ ← ⴰ، مع دمج الحركة مع حرف المدّ إن تكررا (بَا ← ⴱⴰ لا ⴱⴰⴰ). السكون يُهمَل ويُترك لقاعدة ⴻ. التنوين يُفكّ (ً ← ⴰⵏ). التاء المربوطة ة ← ⵜ لأن المؤنث في الأمازيغية ينتهي بتاء صريحة. الألف المقصورة ى ← ⴰ.
-  </div>
-</details>
-
-<h2>جدول <span>المطابقة</span></h2>
+<h2 id="t-h-table"></h2>
 <div class="row">
-  <div class="seg" role="group" aria-label="جدول">
-    <button data-tab="lat" aria-pressed="true">لاتيني ← تيفيناغ</button>
-    <button data-tab="ar" aria-pressed="false">عربي ← تيفيناغ</button>
+  <div class="seg" id="tabseg" role="group">
+    <button data-tab="lat" aria-pressed="true"></button>
+    <button data-tab="ar" aria-pressed="false"></button>
   </div>
 </div>
 <table id="tbl"></table>
 
-<p class="note">ملاحظة: صُحّحت في هذا المحرك بضعة أرقام يونيكود وردت مزاحة في الجدول المُرسل (مثل ⵃ = U+2D43 لا U+2D44، و ⵚ = U+2D5A بينما ⵜ = U+2D5C، و ⵡ = U+2D61 و ⵣ = U+2D63). الأشكال المكتوبة عندك صحيحة، والأرقام فقط هي التي كانت مزاحة بمقدار حرف.</p>
-
-<footer>
-  يعمل التطبيق كاملاً داخل جهازك، بلا اتصال ولا إرسال للنص. إن ظهرت مربعات فارغة بدل الحروف فالجهاز يفتقر إلى خط تيفيناغ — نسخ النص يبقى سليماً.
-</footer>
-
+<p class="note" id="t-note"></p>
+<footer id="t-foot"></footer>
 </div>
 
 <script>
-/* ============ الجداول ============ */
+/* ================= الترجمات / traductions / translations ================= */
+const FLAG = '<svg class="flag" viewBox="0 0 32 22" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maroc"><rect width="32" height="22" fill="#C1272D"/><polygon points="16,5 19.53,15.85 10.29,9.15 21.71,9.15 12.47,15.85" fill="none" stroke="#006233" stroke-width="1.15" stroke-linejoin="round"/></svg>';
+
+const I18N = {
+ar:{ dir:'rtl',
+ title:'محوّل تيفيناغ',
+ sub:'اكتب بالعربية أو بالحروف اللاتينية، أو بالعكس من تيفيناغ — وفق معيار IRCAM',
+ theme:['مظهر الجهاز','فاتح','داكن'],
+ dirs:['إلى تيفيناغ','من تيفيناغ'],
+ modes:['تلقائي','عربية','لاتينية'],
+ targets:['لاتيني (فرنسي)','لاتيني (علمي)','عربي'],
+ copy:'نسخ النص', copied:'نُسخ', clear:'مسح', chars:'حرفاً',
+ traceOn:'عرض المطابقة حرفاً بحرف', traceOff:'إخفاء المطابقة حرفاً بحرف',
+ phTo:'مثال: azul fellawen — أو — أزول فلاون',
+ phFrom:'ⴰⵣⵓⵍ ⴼⴻⵍⵍⴰⵡⴻⵏ',
+ edit:'حرّك مؤشّر الكتابة أو اضغط أي حرف في الشريط لتضع المؤشّر بعده، ثم أضف الحركة أو الحرف.',
+ hOpts:'خيارات المحرك', hRules:'القواعد المطبَّقة', hTable:'جدول المطابقة',
+ tabs:['لاتيني ← تيفيناغ','عربي ← تيفيناغ'],
+ th:['المدخل','تيفيناغ','يونيكود','ملاحظة'],
+ note:'صُحّحت هنا أرقام يونيكود كانت مزاحة في جداول شائعة: ⵃ = U+2D43، ⵚ = U+2D5A، ⵜ = U+2D5C، ⵡ = U+2D61، ⵣ = U+2D63.',
+ foot:'يعمل التطبيق كاملاً داخل جهازك، بلا اتصال ولا إرسال للنص. إن ظهرت مربعات فارغة فالجهاز يفتقر إلى خط تيفيناغ؛ النسخ يبقى سليماً.',
+ ex:['azul fellawen','Ouarzazate','أزول فلاون','ⵜⴰⵎⴰⵣⵉⵖⵜ','ⵜⵉⴼⵉⵏⴰⵖ ⴷ ⵜⵎⴰⵣⵉⵖⵜ'],
+ opts:{
+  schwa:['إدراج ⴻ لفكّ توالي السواكن','عند التقاء ثلاثة سواكن يُدرج ⴻ بين الثاني والثالث (d-r-s ← ⴷⵔⴻⵙ).'],
+  hardg:['قراءة g دائماً ⴳ','عند إيقافه تُطبَّق القاعدة الفرنسية: g قبل e / i تصير ⵊ.'],
+  silente:['تجاهل e الصامتة في آخر الكلمة','Ouarzazate ← ⵡⴰⵔⵣⴰⵣⴰⵜ.'],
+  digits:['أرقام الدردشة العربية','3 ← ⵄ، 7 ← ⵃ، 9 ← ⵇ، 5 ← ⵅ.'],
+  ext:['الحروف الموسّعة لدى IRCAM','تفعيل ⴲ ⵝ ⴸ ⴺ ⴴ والمركّبات ⴷⵊ ⵜⵙ ⴷⵣ: اكتب th dh ḍh bh gy.'],
+  al:['حذف «الـ» التعريف من المدخل العربي','«الامارگ» ← ⴰⵎⴰⵔⴳ.'],
+  shadda:['استعمال الشدة في المخرج العربي','ⴷⴷ ← دّ بدل دد.'],
+  hamza:['همزة أوّل الكلمة في المخرج العربي','ⴰⵣⵓⵍ ← أزول بدل ازول.']
+ },
+ rules:[
+  ['مراحل المعالجة الأربع',
+   '<ul><li><span class="k">التنظيف والتوحيد:</span> توحيد يونيكود (NFC)، حذف التطويل، خفض حالة الحروف مع الحفاظ على نقاط التفخيم، وقبول الكتابة بالنقطة اللاحقة (d. s. t. z. r. h.).</li>'+
+   '<li><span class="k">المطابقة الجَشِعة:</span> تُجرَّب المقاطع الأطول أولاً (ghw ثم gh ثم g) فلا تتفكك ch و kh و ou.</li>'+
+   '<li><span class="k">القواعد الصوتية:</span> الشدّة، التمييز بين u/w و i/y، وإدراج ⴻ.</li>'+
+   '<li><span class="k">الإخراج:</span> نطاق تيفيناغ U+2D30–U+2D7F.</li></ul>'],
+  ['التضعيف — ولا استثناء لـ ⴳ',
+   'التضعيف يُكتب بتكرار الحرف نفسه، ولا علامة خاصة له في لائحة IRCAM بما فيها ⴳ: <span class="k">ⵜⴰⵎⵎⵏⵜ</span>، <span class="k">ⴱⴷⴷⵍ</span>، <span class="k">ⴳ ← ⴳⴳ</span>. في العربية تُوسَّع الشدة U+0651 إلى حرفين، وفي اللاتينية يبقى الحرف المكرّر مكرّراً، ولا يُدرج ⴻ داخل المشدَّد.<br><br>ما يخصّ ⴳ برمز خاص شيئان مختلفان: <span class="k">ⴳⵯ</span> (ⴳ + تامّاطارت ⵯ U+2D6F) لصوت gʷ — اكتب gw — ومثله ⴽⵯ ⵇⵯ ⵅⵯ ⵖⵯ؛ و<span class="k">ⴴ</span> حرف موسَّع لصوت ʝ، اكتب gy. أمّا «القبّعة» فوق ⵏ المضعَّفة فعُرف في بعض النيوتيفيناغ، لا من قواعد IRCAM.'],
+  ['التمييز بين u/w و i/y',
+   '<ul><li>اللاتينية: w ← ⵡ دائماً، و ou ← ⵓ إلا أمام حرف علة فتصير ⵡ (Ouarzazate ← ⵡⴰⵔⵣⴰⵣⴰⵜ)، و y صامتة ⵢ بجوار حرف علة وإلا ⵉ.</li>'+
+   '<li>العربية: «و» أول الكلمة أو بعد صائت ← ⵡ (والو ← ⵡⴰⵍⵓ)، وبعد صامت ← ⵓ (أزول ← ⴰⵣⵓⵍ)؛ وكذلك «ي» (يالاه ← ⵢⴰⵍⴰⵀ، تيفيناغ ← ⵜⵉⴼⵉⵏⴰⵖ).</li>'+
+   '<li>ألف الوصل في «أوسان» تُعامل حاملاً للهمزة ← ⵓⵙⴰⵏ.</li></ul>'],
+  ['الحركات والتاء المربوطة',
+   'الفتحة ← ⴰ، الضمة ← ⵓ، الكسرة ← ⵉ، مع دمج الحركة وحرف المدّ إن تكرّرا. الهمزة المكسورة إ ← ⵉ (إمازيغن ← ⵉⵎⴰⵣⵉⵖⵏ) بينما أ ا آ ← ⴰ. السكون يُهمَل وتتكفّل به قاعدة ⴻ، والتنوين يُفكّ، والتاء المربوطة ة ← ⵜ، والألف المقصورة ى ← ⴰ.'],
+  ['التحويل العكسي',
+   'من تيفيناغ إلى اللاتينية بأسلوبين: <span class="k">علمي</span> بأبجدية البربرية اللاتينية (c = ⵛ، x = ⵅ، ɣ = ⵖ، ɛ = ⵄ، ḍ ṣ ṭ ẓ ṛ ḥ)، أو <span class="k">فرنسي</span> بالمقاطع المألوفة (ou، ch، kh، gh) دون علامات التفخيم. وإلى العربية بخيار الشدّة وهمزة أول الكلمة. العكس ليس نسخة طبق الأصل: ⴻ لا مقابل عربياً فتُهمَل، والمفخّمات تضيع في الأسلوب الفرنسي.']
+ ]},
+
+fr:{ dir:'ltr',
+ title:'Convertisseur tifinagh',
+ sub:'Écrivez en arabe ou en lettres latines (prononciation française), ou l\u2019inverse depuis le tifinagh — norme IRCAM',
+ theme:['Système','Clair','Sombre'],
+ dirs:['Vers le tifinagh','Depuis le tifinagh'],
+ modes:['Auto','Arabe','Latin'],
+ targets:['Latin (français)','Latin (scientifique)','Arabe'],
+ copy:'Copier', copied:'Copié', clear:'Effacer', chars:'caractères',
+ traceOn:'Afficher la correspondance', traceOff:'Masquer la correspondance',
+ phTo:'Exemple : azul fellawen — ou — أزول فلاون',
+ phFrom:'ⴰⵣⵓⵍ ⴼⴻⵍⵍⴰⵡⴻⵏ',
+ edit:'Déplacez le curseur ou touchez une lettre du ruban pour le placer juste après, puis ajoutez une voyelle ou une lettre.',
+ hOpts:'Options du moteur', hRules:'Règles appliquées', hTable:'Table de correspondance',
+ tabs:['Latin → tifinagh','Arabe → tifinagh'],
+ th:['Entrée','Tifinagh','Unicode','Note'],
+ note:'Les points de code corrigés ici sont souvent décalés dans les tables courantes : ⵃ = U+2D43, ⵚ = U+2D5A, ⵜ = U+2D5C, ⵡ = U+2D61, ⵣ = U+2D63.',
+ foot:'Tout fonctionne sur votre appareil : aucun texte n\u2019est envoyé. Des carrés vides signifient qu\u2019il manque une police tifinagh ; la copie reste correcte.',
+ ex:['azul fellawen','Ouarzazate','أزول فلاون','ⵜⴰⵎⴰⵣⵉⵖⵜ','ⵜⵉⴼⵉⵏⴰⵖ ⴷ ⵜⵎⴰⵣⵉⵖⵜ'],
+ opts:{
+  schwa:['Insérer ⴻ entre consonnes','Trois consonnes de suite : ⴻ s\u2019insère entre la 2ᵉ et la 3ᵉ (d-r-s → ⴷⵔⴻⵙ).'],
+  hardg:['g toujours dur → ⴳ','Désactivé, la règle française s\u2019applique : g devant e / i → ⵊ.'],
+  silente:['Ignorer le e final muet','Ouarzazate → ⵡⴰⵔⵣⴰⵣⴰⵜ.'],
+  digits:['Chiffres de l\u2019arabizi','3 → ⵄ, 7 → ⵃ, 9 → ⵇ, 5 → ⵅ.'],
+  ext:['Lettres étendues IRCAM','Active ⴲ ⵝ ⴸ ⴺ ⴴ et ⴷⵊ ⵜⵙ ⴷⵣ : saisissez th dh ḍh bh gy.'],
+  al:['Retirer l\u2019article arabe « al- »','« الامارگ » → ⴰⵎⴰⵔⴳ.'],
+  shadda:['Chadda dans la sortie arabe','ⴷⴷ → دّ au lieu de دد.'],
+  hamza:['Hamza initiale en arabe','ⴰⵣⵓⵍ → أزول plutôt que ازول.']
+ },
+ rules:[
+  ['Les quatre étapes du traitement',
+   '<ul><li><span class="k">Normalisation :</span> Unicode NFC, suppression du tatwil, minuscules en gardant les points emphatiques, notation par point acceptée (d. s. t. z. r. h.).</li>'+
+   '<li><span class="k">Plus longue correspondance d\u2019abord :</span> ghw avant gh avant g, pour que ch, kh et ou ne se décomposent pas.</li>'+
+   '<li><span class="k">Règles phonologiques :</span> gémination, distinction u/w et i/y, insertion de ⴻ.</li>'+
+   '<li><span class="k">Sortie</span> dans le bloc U+2D30–U+2D7F.</li></ul>'],
+  ['Gémination — ⴳ ne fait pas exception',
+   'La gémination s\u2019écrit en doublant la lettre ; l\u2019alphabet IRCAM ne prévoit aucun signe spécial, ⴳ compris : <span class="k">ⵜⴰⵎⵎⵏⵜ</span>, <span class="k">ⴱⴷⴷⵍ</span>, <span class="k">ⴳ → ⴳⴳ</span>. En arabe la chadda U+0651 est développée en deux lettres ; en latin la lettre reste doublée, et aucun ⴻ ne s\u2019insère dans une géminée.<br><br>Deux signes appartiennent bien à ⴳ, mais pour autre chose : <span class="k">ⴳⵯ</span> (ⴳ + tamatart ⵯ U+2D6F) pour gʷ — saisissez gw — comme ⴽⵯ ⵇⵯ ⵅⵯ ⵖⵯ ; et <span class="k">ⴴ</span>, lettre étendue notant ʝ (saisissez gy). Le « chapeau » sur ⵏ géminé relève de certains néotifinaghs, pas de l\u2019IRCAM.'],
+  ['Distinguer u/w et i/y',
+   '<ul><li>Latin : w → ⵡ toujours ; ou → ⵓ sauf devant voyelle où il devient ⵡ (Ouarzazate → ⵡⴰⵔⵣⴰⵣⴰⵜ) ; y → ⵢ au contact d\u2019une voyelle, sinon ⵉ.</li>'+
+   '<li>Arabe : « و » en début de mot ou après voyelle → ⵡ (والو → ⵡⴰⵍⵓ), après consonne → ⵓ (أزول → ⴰⵣⵓⵍ) ; de même « ي » (يالاه → ⵢⴰⵍⴰⵀ).</li>'+
+   '<li>L\u2019alif support de « أوسان » est traité comme tel → ⵓⵙⴰⵏ.</li></ul>'],
+  ['Voyelles et tā\u2019 marbūṭa',
+   'Fatḥa → ⴰ, ḍamma → ⵓ, kasra → ⵉ, avec fusion de la voyelle brève et de la lettre de prolongation. إ → ⵉ (إمازيغن → ⵉⵎⴰⵣⵉⵖⵏ) alors que أ ا آ → ⴰ. Le soukoun est ignoré (la règle du ⴻ s\u2019en charge), le tanwīn est développé, ة → ⵜ et ى → ⴰ.'],
+  ['Conversion inverse',
+   'Du tifinagh vers le latin en deux styles : <span class="k">scientifique</span>, l\u2019alphabet latin berbère (c = ⵛ, x = ⵅ, ɣ = ⵖ, ɛ = ⵄ, ḍ ṣ ṭ ẓ ṛ ḥ), ou <span class="k">français</span> avec ou, ch, kh, gh et sans signes emphatiques. Vers l\u2019arabe avec chadda et hamza initiale en option. L\u2019aller-retour n\u2019est pas exact : ⴻ n\u2019a pas d\u2019équivalent arabe et les emphatiques disparaissent en style français.']
+ ]},
+
+en:{ dir:'ltr',
+ title:'Tifinagh Converter',
+ sub:'Type in Arabic or Latin letters (French pronunciation), or go the other way from Tifinagh — IRCAM standard',
+ theme:['System','Light','Dark'],
+ dirs:['To Tifinagh','From Tifinagh'],
+ modes:['Auto','Arabic','Latin'],
+ targets:['Latin (French)','Latin (scientific)','Arabic'],
+ copy:'Copy', copied:'Copied', clear:'Clear', chars:'characters',
+ traceOn:'Show letter-by-letter mapping', traceOff:'Hide letter-by-letter mapping',
+ phTo:'Example: azul fellawen — or — أزول فلاون',
+ phFrom:'ⴰⵣⵓⵍ ⴼⴻⵍⵍⴰⵡⴻⵏ',
+ edit:'Move the caret, or tap any letter in the ribbon to place the caret right after it, then add a mark or letter.',
+ hOpts:'Engine options', hRules:'Rules applied', hTable:'Mapping table',
+ tabs:['Latin → Tifinagh','Arabic → Tifinagh'],
+ th:['Input','Tifinagh','Unicode','Note'],
+ note:'Code points corrected here are commonly shifted in circulating tables: ⵃ = U+2D43, ⵚ = U+2D5A, ⵜ = U+2D5C, ⵡ = U+2D61, ⵣ = U+2D63.',
+ foot:'Everything runs on your device; no text is sent anywhere. Empty boxes mean the device lacks a Tifinagh font — copying still works.',
+ ex:['azul fellawen','Ouarzazate','أزول فلاون','ⵜⴰⵎⴰⵣⵉⵖⵜ','ⵜⵉⴼⵉⵏⴰⵖ ⴷ ⵜⵎⴰⵣⵉⵖⵜ'],
+ opts:{
+  schwa:['Insert ⴻ to break consonant clusters','With three consonants in a row, ⴻ goes between the 2nd and 3rd (d-r-s → ⴷⵔⴻⵙ).'],
+  hardg:['Always read g as ⴳ','Turn off for the French rule: g before e / i → ⵊ.'],
+  silente:['Drop silent final e','Ouarzazate → ⵡⴰⵔⵣⴰⵣⴰⵜ.'],
+  digits:['Arabizi digits','3 → ⵄ, 7 → ⵃ, 9 → ⵇ, 5 → ⵅ.'],
+  ext:['IRCAM extended letters','Enables ⴲ ⵝ ⴸ ⴺ ⴴ and ⴷⵊ ⵜⵙ ⴷⵣ: type th dh ḍh bh gy.'],
+  al:['Strip the Arabic article "al-"','"الامارگ" → ⴰⵎⴰⵔⴳ.'],
+  shadda:['Use shadda in Arabic output','ⴷⴷ → دّ instead of دد.'],
+  hamza:['Initial hamza in Arabic output','ⴰⵣⵓⵍ → أزول rather than ازول.']
+ },
+ rules:[
+  ['The four processing stages',
+   '<ul><li><span class="k">Normalisation:</span> Unicode NFC, tatweel removed, lowercasing that preserves emphatic dots, dot notation accepted (d. s. t. z. r. h.).</li>'+
+   '<li><span class="k">Longest match first:</span> ghw before gh before g, so ch, kh and ou never split apart.</li>'+
+   '<li><span class="k">Phonological rules:</span> gemination, u/w and i/y, ⴻ insertion.</li>'+
+   '<li><span class="k">Output</span> in the U+2D30–U+2D7F block.</li></ul>'],
+  ['Gemination — ⴳ is no exception',
+   'Gemination is written by doubling the letter; the IRCAM alphabet has no dedicated sign for it, ⴳ included: <span class="k">ⵜⴰⵎⵎⵏⵜ</span>, <span class="k">ⴱⴷⴷⵍ</span>, <span class="k">ⴳ → ⴳⴳ</span>. Arabic shadda U+0651 is expanded into two letters; in Latin the doubled letter stays doubled, and no ⴻ is inserted inside a geminate.<br><br>Two signs do belong to ⴳ, but for other things: <span class="k">ⴳⵯ</span> (ⴳ + tamatart ⵯ U+2D6F) for gʷ — type gw — as with ⴽⵯ ⵇⵯ ⵅⵯ ⵖⵯ; and <span class="k">ⴴ</span>, an extended letter for ʝ (type gy). The "hat" over geminate ⵏ belongs to some neo-Tifinagh conventions, not to IRCAM.'],
+  ['Telling u/w and i/y apart',
+   '<ul><li>Latin: w → ⵡ always; ou → ⵓ except before a vowel, where it becomes ⵡ (Ouarzazate → ⵡⴰⵔⵣⴰⵣⴰⵜ); y → ⵢ next to a vowel, otherwise ⵉ.</li>'+
+   '<li>Arabic: "و" word-initially or after a vowel → ⵡ (والو → ⵡⴰⵍⵓ), after a consonant → ⵓ (أزول → ⴰⵣⵓⵍ); likewise "ي" (يالاه → ⵢⴰⵍⴰⵀ).</li>'+
+   '<li>The carrier alif in "أوسان" is treated as such → ⵓⵙⴰⵏ.</li></ul>'],
+  ['Vowels and tāʾ marbūṭa',
+   'Fatḥa → ⴰ, ḍamma → ⵓ, kasra → ⵉ, merging a short vowel with its matching long letter. إ → ⵉ (إمازيغن → ⵉⵎⴰⵣⵉⵖⵏ) while أ ا آ → ⴰ. Sukūn is dropped (the ⴻ rule handles it), tanwīn is expanded, ة → ⵜ and ى → ⴰ.'],
+  ['Reverse conversion',
+   'Tifinagh to Latin in two styles: <span class="k">scientific</span>, the Berber Latin alphabet (c = ⵛ, x = ⵅ, ɣ = ⵖ, ɛ = ⵄ, ḍ ṣ ṭ ẓ ṛ ḥ), or <span class="k">French</span> with ou, ch, kh, gh and no emphatic marks. To Arabic with optional shadda and initial hamza. Round-tripping is not exact: ⴻ has no Arabic counterpart and is dropped, and emphatics are lost in French style.']
+ ]}
+};
+
+/* ================= الجداول ================= */
 const U = c => 'U+' + c.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
 
 const LAT_MULTI = [
@@ -301,17 +389,16 @@ const LAT_MULTI = [
   ['ch','ⵛ'],['sh','ⵛ'],['kh','ⵅ'],['gh','ⵖ'],['dj','ⵊ'],['ph','ⴼ'],
   ['th','ⵜ'],['ck','ⴽ'],['gn','ⵏⵢ'],['kw','ⴽⵯ'],['gw','ⴳⵯ'],['qw','ⵇⵯ'],['au','ⵓ']
 ];
-const LAT_ONE = {
-  a:'ⴰ','à':'ⴰ','â':'ⴰ',b:'ⴱ',d:'ⴷ','ḍ':'ⴹ',e:'ⴻ','é':'ⴻ','è':'ⴻ','ê':'ⴻ','ë':'ⴻ',
-  f:'ⴼ',h:'ⵀ','ḥ':'ⵃ',i:'ⵉ','î':'ⵉ','ï':'ⵉ',j:'ⵊ','ž':'ⵊ','ǧ':'ⵊ',k:'ⴽ',l:'ⵍ','ḷ':'ⵍ',
-  m:'ⵎ',n:'ⵏ',o:'ⵓ','ô':'ⵓ',p:'ⵒ',q:'ⵇ',r:'ⵔ','ṛ':'ⵕ',s:'ⵙ','ṣ':'ⵚ','š':'ⵛ','č':'ⵛ',
-  t:'ⵜ','ṭ':'ⵟ',u:'ⵓ','û':'ⵓ','ü':'ⵓ',v:'ⵠ',w:'ⵡ',x:'ⵅ',z:'ⵣ','ẓ':'ⵥ',
-  'ɛ':'ⵄ','ʕ':'ⵄ','ε':'ⵄ','ɣ':'ⵖ','ġ':'ⵖ','ⵯ':'ⵯ'
-};
 const LAT_EXT = [
   ['ḍh','ⴺ'],['dh','ⴸ'],['th','ⵝ'],['bh','ⴲ'],['gy','ⴴ'],['ǧ','ⴴ'],['dj','ⴷⵊ'],['ts','ⵜⵙ'],['dz','ⴷⵣ']
 ];
-const AR_EXT = {'ث':'ⵝ','ذ':'ⴸ','ظ':'ⴺ'};
+const LAT_ONE = {
+  a:'ⴰ','à':'ⴰ','â':'ⴰ',b:'ⴱ',d:'ⴷ','ḍ':'ⴹ',e:'ⴻ','é':'ⴻ','è':'ⴻ','ê':'ⴻ','ë':'ⴻ',
+  f:'ⴼ',h:'ⵀ','ḥ':'ⵃ',i:'ⵉ','î':'ⵉ','ï':'ⵉ',j:'ⵊ','ž':'ⵊ',k:'ⴽ',l:'ⵍ','ḷ':'ⵍ',
+  m:'ⵎ',n:'ⵏ',o:'ⵓ','ô':'ⵓ',p:'ⵒ',q:'ⵇ',r:'ⵔ','ṛ':'ⵕ',s:'ⵙ','ṣ':'ⵚ','š':'ⵛ','č':'ⵛ',
+  t:'ⵜ','ṭ':'ⵟ',u:'ⵓ','û':'ⵓ','ü':'ⵓ',v:'ⵠ',w:'ⵡ',x:'ⵅ',z:'ⵣ','ẓ':'ⵥ',
+  'ɛ':'ⵄ','ʕ':'ⵄ','ε':'ⵄ','ɣ':'ⵖ','ġ':'ⵖ','ⵯ':'ⵯ','ʷ':'ⵯ'
+};
 const LAT_DIGITS = {'3':'ⵄ','7':'ⵃ','9':'ⵇ','5':'ⵅ'};
 
 const AR_ONE = {
@@ -320,157 +407,170 @@ const AR_ONE = {
   'ع':'ⵄ','غ':'ⵖ','ف':'ⴼ','ڤ':'ⵠ','ڥ':'ⵠ','ق':'ⵇ','ك':'ⴽ','گ':'ⴳ','ݣ':'ⴳ','ڭ':'ⴳ',
   'ل':'ⵍ','م':'ⵎ','ن':'ⵏ','ه':'ⵀ','ھ':'ⵀ'
 };
-const AR_ALIF = 'اأآٱ';
-const AR_ALIF_ALL = 'اأإآٱ';
+const AR_EXT = {'ث':'ⵝ','ذ':'ⴸ','ظ':'ⴺ'};
+const AR_ALIF = 'اأآٱ', AR_ALIF_ALL = 'اأإآٱ';
 const HARAKA = {'\u064E':'ⴰ','\u064F':'ⵓ','\u0650':'ⵉ'};
 const TANWIN = {'\u064B':'ⴰⵏ','\u064C':'ⵓⵏ','\u064D':'ⵉⵏ'};
 const DIAC = /[\u064B-\u0652\u0670\u0653-\u0655]/;
-
 const VOW = new Set(['ⴰ','ⵉ','ⵓ','ⴻ']);
 const isVow = c => VOW.has(c);
 
-/* ============ محرك اللاتينية ============ */
+/* الاتجاه العكسي */
+const TIF_SCI = {'ⴰ':'a','ⴱ':'b','ⴲ':'ḇ','ⴳ':'g','ⴴ':'ǧ','ⴷ':'d','ⴸ':'ḏ','ⴹ':'ḍ','ⴺ':'ḍ',
+ 'ⴻ':'e','ⴼ':'f','ⴽ':'k','ⵀ':'h','ⵃ':'ḥ','ⵄ':'ɛ','ⵅ':'x','ⵇ':'q','ⵉ':'i','ⵊ':'j',
+ 'ⵍ':'l','ⵎ':'m','ⵏ':'n','ⵒ':'p','ⵓ':'u','ⵔ':'r','ⵕ':'ṛ','ⵖ':'ɣ','ⵙ':'s','ⵚ':'ṣ',
+ 'ⵛ':'c','ⵜ':'t','ⵝ':'ṯ','ⵟ':'ṭ','ⵠ':'v','ⵡ':'w','ⵢ':'y','ⵣ':'z','ⵥ':'ẓ','ⵯ':'ʷ'};
+const TIF_FR = {'ⴰ':'a','ⴱ':'b','ⴲ':'b','ⴳ':'g','ⴴ':'g','ⴷ':'d','ⴸ':'dh','ⴹ':'d','ⴺ':'dh',
+ 'ⴻ':'e','ⴼ':'f','ⴽ':'k','ⵀ':'h','ⵃ':'h','ⵄ':'â','ⵅ':'kh','ⵇ':'q','ⵉ':'i','ⵊ':'j',
+ 'ⵍ':'l','ⵎ':'m','ⵏ':'n','ⵒ':'p','ⵓ':'ou','ⵔ':'r','ⵕ':'r','ⵖ':'gh','ⵙ':'s','ⵚ':'s',
+ 'ⵛ':'ch','ⵜ':'t','ⵝ':'th','ⵟ':'t','ⵠ':'v','ⵡ':'w','ⵢ':'y','ⵣ':'z','ⵥ':'z','ⵯ':'w'};
+const TIF_AR = {'ⴰ':'ا','ⴱ':'ب','ⴲ':'ب','ⴳ':'گ','ⴴ':'گ','ⴷ':'د','ⴸ':'ذ','ⴹ':'ض','ⴺ':'ظ',
+ 'ⴻ':'','ⴼ':'ف','ⴽ':'ك','ⵀ':'ه','ⵃ':'ح','ⵄ':'ع','ⵅ':'خ','ⵇ':'ق','ⵉ':'ي','ⵊ':'ج',
+ 'ⵍ':'ل','ⵎ':'م','ⵏ':'ن','ⵒ':'پ','ⵓ':'و','ⵔ':'ر','ⵕ':'ر','ⵖ':'غ','ⵙ':'س','ⵚ':'ص',
+ 'ⵛ':'ش','ⵜ':'ت','ⵝ':'ث','ⵟ':'ط','ⵠ':'ڤ','ⵡ':'و','ⵢ':'ي','ⵣ':'ز','ⵥ':'ظ','ⵯ':'و'};
+const TIF_ORDER = ['ⴰ','ⴱ','ⴳ','ⴳⵯ','ⴷ','ⴹ','ⴻ','ⴼ','ⴽ','ⴽⵯ','ⵀ','ⵃ','ⵄ','ⵅ','ⵇ','ⵉ','ⵊ','ⵍ','ⵎ','ⵏ','ⵓ','ⵔ','ⵕ','ⵖ','ⵙ','ⵚ','ⵛ','ⵜ','ⵟ','ⵡ','ⵢ','ⵣ','ⵥ','ⵯ','ⵒ','ⵠ','ⴲ','ⵝ','ⴸ','ⴺ','ⴴ'];
+
+/* ================= محرك اللاتينية ================= */
 function convLatin(word, o){
   let s = word.normalize('NFC').toLowerCase();
   s = s.replace(/([dstzrh])\./g, (m,c)=>({d:'ḍ',s:'ṣ',t:'ṭ',z:'ẓ',r:'ṛ',h:'ḥ'}[c]));
   if (o.silentE && /[a-zḍṣṭẓṛḥ]{2,}e$/.test(s) && !/[aeiou]e$/.test(s)) s = s.slice(0,-1);
-
   const V = 'aeiouàâéèêëîïôûü';
   const isv = ch => !!ch && V.includes(ch);
   const inSet = (set,ch) => !!ch && set.includes(ch);
   const out = [];
-  const push = (src, dst, kind) => { for (const ch of dst) out.push({src, ch, kind}); };
-
+  const push = (src,dst,kind) => { for (const ch of dst) out.push({src,ch,kind}); };
   let i = 0;
   while (i < s.length){
     const c = s[i], n1 = s[i+1] || '', n2 = s[i+2] || '', p = s[i-1] || '';
-
-    // ou / oua
-    if (c === 'o' && n1 === 'u'){
-      if (isv(n2)) { push('ou','ⵡ'); } else { push('ou','ⵓ'); }
-      i += 2; continue;
-    }
-    // gu + e/i  و  qu + voyelle
+    if (c === 'o' && n1 === 'u'){ push('ou', isv(n2) ? 'ⵡ' : 'ⵓ'); i += 2; continue; }
     if (c === 'g' && n1 === 'u' && inSet('eiy',n2) && !o.hardG){ push('gu','ⴳ'); i += 2; continue; }
     if (c === 'q' && n1 === 'u' && isv(n2)){ push('qu','ⵇ'); i += 2; continue; }
-
     let hit = null;
     const MULTI = o.ext ? LAT_EXT.concat(LAT_MULTI) : LAT_MULTI;
     for (const [k,v] of MULTI){ if (s.startsWith(k,i)){ hit=[k,v]; break; } }
-    if (hit){ push(hit[0], hit[1]); i += hit[0].length; continue; }
-
+    if (hit){ push(hit[0],hit[1]); i += hit[0].length; continue; }
     if (c === 'c'){ push('c', inSet('eiy',n1) ? 'ⵙ' : 'ⴽ'); i++; continue; }
     if (c === 'ç'){ push('ç','ⵙ'); i++; continue; }
     if (c === 'g'){ push('g', (!o.hardG && inSet('eiy',n1)) ? 'ⵊ' : 'ⴳ'); i++; continue; }
     if (c === 'y'){ push('y', (isv(n1) || isv(p)) ? 'ⵢ' : 'ⵉ'); i++; continue; }
     if (o.digits && LAT_DIGITS[c]){ push(c, LAT_DIGITS[c]); i++; continue; }
     if (LAT_ONE[c]){ push(c, LAT_ONE[c]); i++; continue; }
-
-    out.push({src:c, ch:c, kind:'raw'});
-    i++;
+    if (AR_ONE[c]){ push(c, AR_ONE[c]); i++; continue; }
+    if (/[\u2D30-\u2D7F]/.test(c)){ out.push({src:c, ch:c}); i++; continue; }
+    out.push({src:c, ch:c, kind:'raw'}); i++;
   }
   return out;
 }
 
-/* ============ محرك العربية ============ */
+/* ================= محرك العربية ================= */
 function convArabic(word, o){
   let s = word.normalize('NFC').replace(/\u0640/g,'');
-  // الشدة: نقلها قبل الحركة ثم تكرار الحرف
-  s = s.replace(/([\u064B-\u0650\u0652])\u0651/g, '\u0651$1');
-  s = s.replace(/(.)\u0651/g, '$1$1');
+  s = s.replace(/([\u064B-\u0650\u0652])\u0651/g,'\u0651$1').replace(/(.)\u0651/g,'$1$1');
   if (o.stripAl) s = s.replace(/^ال(?=[\u0621-\u064A\u0671-\u06D3]{3,})/,'');
-
   const chars = [...s];
-  const nextLetter = k => { for (let j=k+1;j<chars.length;j++){ if (!DIAC.test(chars[j])) return chars[j]; } return ''; };
-  const nextAfter = k => { let f=0; for (let j=k+1;j<chars.length;j++){ if (!DIAC.test(chars[j])){ if(++f===2) return chars[j]; } } return ''; };
-  const nextDiac  = k => (chars[k+1] && DIAC.test(chars[k+1])) ? chars[k+1] : '';
-
+  const nextLetter = k => { for (let j=k+1;j<chars.length;j++) if (!DIAC.test(chars[j])) return chars[j]; return ''; };
+  const nextAfter = k => { let f=0; for (let j=k+1;j<chars.length;j++) if (!DIAC.test(chars[j])) { if (++f===2) return chars[j]; } return ''; };
+  const nextDiac = k => (chars[k+1] && DIAC.test(chars[k+1])) ? chars[k+1] : '';
   const out = [];
   const last = () => out.length ? out[out.length-1].ch : '';
   const push = (src,dst,kind)=>{ for (const ch of dst) out.push({src,ch,kind}); };
-  const pushVowel = (src,v)=>{ if (last() === v) return; push(src,v); };
-
+  const pushVowel = (src,v)=>{ if (last() !== v) push(src,v); };
   for (let k=0;k<chars.length;k++){
-    const c = chars[k];
-    const nl = nextLetter(k);
-
-    if (c === 'إ'){ pushVowel(c,'ⵉ'); continue; }   // الهمزة المكسورة = كسرة
+    const c = chars[k], nl = nextLetter(k);
+    if (c === 'إ'){ pushVowel(c,'ⵉ'); continue; }
     if (AR_ALIF.includes(c)){
-      // ألف حاملة في أول الكلمة: او/أو + ساكن ← ⵓ ، إي + ساكن ← ⵉ
       if (k === 0){
         const after = nextAfter(k);
-        const consAfter = after && !AR_ALIF_ALL.includes(after) && !'وي'.includes(after);
-        if (consAfter && nl === 'و') continue;
+        if (after && !AR_ALIF_ALL.includes(after) && !'وي'.includes(after) && nl === 'و') continue;
       }
       pushVowel(c,'ⴰ'); continue;
     }
     if (c === 'ى'){ pushVowel(c,'ⴰ'); continue; }
     if (c === 'ؤ'){ pushVowel(c,'ⵓ'); continue; }
     if (c === 'ئ'){ pushVowel(c,'ⵉ'); continue; }
-    if (c === 'ء'){ continue; }
-
+    if (c === 'ء') continue;
     if (c === 'و' || c === 'ي'){
       let prevSrc = '';
       for (let j=k-1;j>=0;j--){ if (!DIAC.test(chars[j])) { prevSrc = chars[j]; break; } }
-      if (c === 'ي' && prevSrc === 'إ') continue;   // ياء مدّ بعد إ
-      const cons = (c === 'و') ? 'ⵡ' : 'ⵢ';
-      const vow  = (c === 'و') ? 'ⵓ' : 'ⵉ';
+      if (c === 'ي' && prevSrc === 'إ') continue;
+      const cons = (c === 'و') ? 'ⵡ' : 'ⵢ', vow = (c === 'و') ? 'ⵓ' : 'ⵉ';
       const d = nextDiac(k);
       if (d === '\u064F' && c === 'و'){ push(c,'ⵓ'); k++; continue; }
       if (d === '\u0650' && c === 'ي'){ push(c,'ⵉ'); k++; continue; }
-      if (d === '\u064E'){ push(c,cons); continue; }               // وَ / يَ ← صامت
-      if (k === 0 && nl){ push(c,cons); continue; }                 // أول الكلمة
-      if (isVow(last())){ push(c,cons); continue; }                 // بعد حرف علة
+      if (d === '\u064E'){ push(c,cons); continue; }
+      if (k === 0 && nl){ push(c,cons); continue; }
+      if (isVow(last())){ push(c,cons); continue; }
       push(c,vow); continue;
     }
-
     if (HARAKA[c]){ pushVowel(c,HARAKA[c]); continue; }
     if (TANWIN[c]){ push(c,TANWIN[c]); continue; }
-    if (c === '\u0652' || DIAC.test(c)){ continue; }                // السكون وبقية العلامات
+    if (c === '\u0652' || DIAC.test(c)) continue;
     if (o.ext && AR_EXT[c]){ push(c,AR_EXT[c]); continue; }
     if (AR_ONE[c]){ push(c,AR_ONE[c]); continue; }
+    const low = c.toLowerCase();
+    if (LAT_ONE[low]){ push(c, LAT_ONE[low]); continue; }     // ḍ ṣ ṭ ẓ ṛ ḥ ɛ ɣ داخل نص عربي
+    if (/[\u2D30-\u2D7F]/.test(c)){ out.push({src:c, ch:c}); continue; }
     out.push({src:c, ch:c, kind:'raw'});
   }
   return out;
 }
 
-/* ============ قاعدة ⴻ ============ */
+/* ================= قاعدة ⴻ ================= */
 function applySchwa(tok){
   const isCons = t => t.kind !== 'raw' && /[\u2D30-\u2D7F]/.test(t.ch) && !isVow(t.ch) && t.ch !== 'ⵯ';
-  const res = [];
-  let run = [];
+  const res = []; let run = [];
   const flush = () => {
     if (run.length >= 3){
       let cnt = 0;
       for (let i=0;i<run.length;i++){
         res.push(run[i]); cnt++;
-        const rem = run.length - i - 1;
-        if (cnt >= 2 && rem >= 1){
-          if (run[i].ch === run[i+1].ch) continue;   // لا يُفصل الحرف المشدَّد
-          res.push({src:'·', ch:'ⴻ', kind:'ins'});
-          cnt = 0;
+        if (cnt >= 2 && run.length - i - 1 >= 1){
+          if (run[i].ch === run[i+1].ch) continue;
+          res.push({src:'·', ch:'ⴻ', kind:'ins'}); cnt = 0;
         }
       }
     } else res.push(...run);
     run = [];
   };
-  for (const t of tok){
-    if (isCons(t)) run.push(t);
-    else { flush(); res.push(t); }
-  }
-  flush();
-  return res;
+  for (const t of tok){ if (isCons(t)) run.push(t); else { flush(); res.push(t); } }
+  flush(); return res;
 }
 
-/* ============ التنسيق العام ============ */
-const isArabicWord = w => /[\u0600-\u06FF]/.test(w);
+/* ================= التحويل العكسي ================= */
+function convFromTif(word, o){
+  const map = o.target === 'ar' ? TIF_AR : (o.target === 'lat-sci' ? TIF_SCI : TIF_FR);
+  const chars = [...word.normalize('NFC')];
+  const out = [];
+  const push = (src,dst,kind)=>{ if (!dst) { out.push({src, ch:'', kind:'skip'}); return; } for (const ch of dst) out.push({src,ch,kind}); };
+  let firstLetter = true;
+  for (let i=0;i<chars.length;i++){
+    const c = chars[i], prev = chars[i-1] || '';
+    if (!map[c]){ out.push({src:c, ch:c, kind:'raw'}); continue; }
+    if (o.target === 'ar'){
+      if (c === 'ⴻ') continue;
+      if (o.arShadda && c === prev && c !== 'ⴰ' && c !== 'ⵉ' && c !== 'ⵓ'){ push(c,'\u0651'); continue; }
+      if (firstLetter && c === 'ⴰ' && o.arHamza){ push(c,'أ'); firstLetter = false; continue; }
+      if (firstLetter && c === 'ⵉ' && o.arHamza){ push(c,'إي'); firstLetter = false; continue; }
+      if (firstLetter && c === 'ⵓ' && o.arHamza){ push(c,'أو'); firstLetter = false; continue; }
+      firstLetter = false;
+      push(c, map[c]); continue;
+    }
+    firstLetter = false;
+    push(c, map[c]);
+  }
+  return out.filter(t => t.ch !== '');
+}
 
+/* ================= التنسيق العام ================= */
+const isArabicWord = w => /[\u0600-\u06FF]/.test(w);
 function convert(text, mode, o){
   const parts = text.split(/(\s+)/);
   let tokens = [];
   for (const part of parts){
     if (!part) continue;
     if (/^\s+$/.test(part)){ tokens.push({src:part, ch:part, kind:'raw'}); continue; }
+    if (o.direction === 'from'){ tokens = tokens.concat(convFromTif(part,o)); continue; }
     const useAr = mode === 'ar' || (mode === 'auto' && isArabicWord(part));
     let t = useAr ? convArabic(part,o) : convLatin(part,o);
     if (o.schwa) t = applySchwa(t);
@@ -479,151 +579,92 @@ function convert(text, mode, o){
   return tokens;
 }
 
-/* ============ الواجهة ============ */
+/* ================= الواجهة ================= */
 const $ = s => document.querySelector(s);
-const inEl = $('#in'), outEl = $('#out'), traceEl = $('#trace');
-let mode = 'auto', showTrace = false;
+const inEl = $('#in'), outEl = $('#out'), traceEl = $('#trace'), stripEl = $('#strip');
+let lang = 'ar', mode = 'auto', direction = 'to', target = 'lat-fr', showTrace = false;
+const T = () => I18N[lang];
+
+const OPT_DEFS = [
+  {id:'schwa',   key:'schwa',   def:true,  when:'to'},
+  {id:'hardg',   key:'hardg',   def:true,  when:'to'},
+  {id:'silente', key:'silente', def:true,  when:'to'},
+  {id:'digits',  key:'digits',  def:false, when:'to'},
+  {id:'ext',     key:'ext',     def:false, when:'to'},
+  {id:'al',      key:'al',      def:false, when:'to'},
+  {id:'shadda',  key:'shadda',  def:true,  when:'from'},
+  {id:'hamza',   key:'hamza',   def:true,  when:'from'}
+];
+const optState = {};
+OPT_DEFS.forEach(d => optState[d.id] = d.def);
 
 function opts(){
   return {
-    schwa:   $('#o-schwa').checked,
-    hardG:   $('#o-hardg').checked,
-    silentE: $('#o-silente').checked,
-    digits:  $('#o-digits').checked,
-    stripAl: $('#o-al').checked,
-    ext:     $('#o-ext').checked
+    schwa:optState.schwa, hardG:optState.hardg, silentE:optState.silente,
+    digits:optState.digits, ext:optState.ext, stripAl:optState.al,
+    arShadda:optState.shadda, arHamza:optState.hamza,
+    direction, target
   };
 }
 
-function render(){
-  const src = inEl.value;
-  if (!src.trim()){
-    outEl.textContent = 'ⴰⵣⵓⵍ';
-    outEl.classList.add('empty');
-    $('#count').textContent = '';
-    traceEl.innerHTML = '';
-    return;
+function buildOptions(){
+  const box = $('#opts'); box.innerHTML = '';
+  for (const d of OPT_DEFS){
+    if (d.when !== direction) continue;
+    if (d.when === 'from' && target !== 'ar') continue;
+    const [title, desc] = T().opts[d.key];
+    const l = document.createElement('label'); l.className = 'opt';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = optState[d.id];
+    cb.addEventListener('change', () => { optState[d.id] = cb.checked; render(); });
+    const sp = document.createElement('span');
+    const b = document.createElement('b'); b.textContent = title;
+    const sm = document.createElement('small'); sm.textContent = desc;
+    sp.append(b, sm); l.append(cb, sp); box.appendChild(l);
   }
-  const tokens = convert(src, mode, opts());
-  const text = tokens.map(t=>t.ch).join('');
-  outEl.textContent = text;
-  outEl.classList.remove('empty');
-  $('#count').textContent = text.replace(/\s/g,'').length + ' حرفاً';
+  box.hidden = !box.children.length;
+}
 
-  if (showTrace){
-    traceEl.innerHTML = '';
-    const frag = document.createDocumentFragment();
-    let i = 0;
-    for (const t of tokens){
-      if (/^\s+$/.test(t.ch)) continue;
-      const d = document.createElement('span');
-      d.className = 'pair' + (t.kind === 'ins' ? ' ins' : t.kind === 'raw' ? ' raw' : '');
-      d.innerHTML = '<b class="tif"></b><i></i>';
-      d.querySelector('b').textContent = t.ch;
-      d.querySelector('i').textContent = t.src;
-      frag.appendChild(d);
-      if (++i > 400) break;
-    }
-    traceEl.appendChild(frag);
+function buildRules(){
+  const box = $('#rules'); box.innerHTML = '';
+  for (const [t, body] of T().rules){
+    const d = document.createElement('details');
+    const s = document.createElement('summary'); s.textContent = t;
+    const b = document.createElement('div'); b.className = 'body'; b.innerHTML = body;
+    d.append(s,b); box.appendChild(d);
   }
 }
 
-inEl.addEventListener('input', render);
-document.querySelectorAll('.opts input').forEach(el => el.addEventListener('change', render));
-
-document.querySelectorAll('.seg [data-mode]').forEach(b => b.addEventListener('click', () => {
-  mode = b.dataset.mode;
-  document.querySelectorAll('.seg [data-mode]').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
-  render();
-}));
-
-$('#trace-toggle').addEventListener('click', e => {
-  showTrace = !showTrace;
-  e.currentTarget.setAttribute('aria-pressed', String(showTrace));
-  e.currentTarget.textContent = showTrace ? 'إخفاء المطابقة حرفاً بحرف' : 'عرض المطابقة حرفاً بحرف';
-  traceEl.hidden = !showTrace;
-  render();
-});
-
-document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
-  inEl.value = b.dataset.ex; render(); inEl.focus();
-}));
-
-$('#clear').addEventListener('click', () => { inEl.value=''; render(); drawStrip(); inEl.focus(); });
-
-$('#copy').addEventListener('click', async e => {
-  const txt = outEl.textContent;
-  const btn = e.currentTarget, old = btn.textContent;
-  try { await navigator.clipboard.writeText(txt); }
-  catch { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
-  btn.textContent = 'نُسخ'; setTimeout(()=>btn.textContent=old, 1200);
-});
-
-/* ============ المظهر ============ */
-document.querySelectorAll('.theme button').forEach(b => b.addEventListener('click', () => {
-  document.documentElement.setAttribute('data-theme', b.dataset.theme);
-  document.querySelectorAll('.theme button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
-}));
-
-/* ============ مؤشّر الكتابة والتصحيح ============ */
-const stripEl = $('#strip');
-
-function caretPos(){ return inEl.selectionStart ?? inEl.value.length; }
-function setCaret(p){
-  p = Math.max(0, Math.min(inEl.value.length, p));
-  inEl.focus(); inEl.setSelectionRange(p, p); drawStrip();
-}
-function insertAt(txt){
-  const a = inEl.selectionStart ?? inEl.value.length;
-  const b = inEl.selectionEnd ?? a;
-  inEl.value = inEl.value.slice(0,a) + txt + inEl.value.slice(b);
-  render(); setCaret(a + txt.length);
-}
-function backspace(){
-  const a = inEl.selectionStart ?? inEl.value.length;
-  const b = inEl.selectionEnd ?? a;
-  if (a === b && a === 0) return;
-  if (a === b){ inEl.value = inEl.value.slice(0,a-1) + inEl.value.slice(a); render(); setCaret(a-1); }
-  else { inEl.value = inEl.value.slice(0,a) + inEl.value.slice(b); render(); setCaret(a); }
+const TBL_LAT = [
+  ['ou','ⵓ'],['ch, sh, š','ⵛ'],['kh, x','ⵅ'],['gh, ɣ','ⵖ'],['gw','ⴳⵯ'],['kw','ⴽⵯ'],
+  ['dj, j','ⵊ'],['g, gu','ⴳ'],['gy','ⴴ'],['a','ⴰ'],['b','ⴱ'],['d','ⴷ'],['ḍ / d.','ⴹ'],
+  ['e','ⴻ'],['f','ⴼ'],['k, ck','ⴽ'],['h','ⵀ'],['ḥ / h.','ⵃ'],['q','ⵇ'],['i','ⵉ'],['l','ⵍ'],
+  ['m','ⵎ'],['n','ⵏ'],['u, o','ⵓ'],['w','ⵡ'],['r','ⵔ'],['ṛ / r.','ⵕ'],['s, c(+e,i)','ⵙ'],
+  ['ṣ / s.','ⵚ'],['t, th','ⵜ'],['ṭ / t.','ⵟ'],['y','ⵢ'],['z','ⵣ'],['ẓ / z.','ⵥ'],
+  ['ɛ, 3','ⵄ'],['p','ⵒ'],['v','ⵠ'],['th, dh, ḍh, bh','ⵝ ⴸ ⴺ ⴲ']
+];
+const TBL_AR = [
+  ['ا أ آ ى','ⴰ'],['إ','ⵉ'],['و','ⵓ / ⵡ'],['ي','ⵉ / ⵢ'],['ب','ⴱ'],['گ ݣ ڭ','ⴳ'],['د ذ','ⴷ'],
+  ['ض','ⴹ'],['ف','ⴼ'],['ك','ⴽ'],['ه','ⵀ'],['ح','ⵃ'],['خ','ⵅ'],['ق','ⵇ'],['ج','ⵊ'],['ل','ⵍ'],
+  ['م','ⵎ'],['ن','ⵏ'],['ر','ⵔ'],['غ','ⵖ'],['س','ⵙ'],['ص','ⵚ'],['ش چ','ⵛ'],['ت ث ة','ⵜ'],
+  ['ط','ⵟ'],['ع','ⵄ'],['ز','ⵣ'],['ظ','ⵥ'],['پ','ⵒ'],['ڤ ڥ','ⵠ']
+];
+function drawTable(which){
+  const rows = which === 'lat' ? TBL_LAT : TBL_AR;
+  const th = T().th;
+  const head = `<tr><th>${th[0]}</th><th>${th[1]}</th><th>${th[2]}</th></tr>`;
+  const body = rows.map(([a,g]) => {
+    const code = [...g].filter(c => /[\u2D30-\u2D7F]/.test(c)).map(U).join(' ') || '—';
+    const cell = which === 'lat' ? `<td class="l">${a}</td>` : `<td>${a}</td>`;
+    return `<tr>${cell}<td class="g tif">${g}</td><td class="u">${code}</td></tr>`;
+  }).join('');
+  $('#tbl').innerHTML = head + body;
 }
 
-function drawStrip(){
-  const v = inEl.value;
-  if (!v){ stripEl.innerHTML = ''; return; }
-  stripEl.dir = /[\u0600-\u06FF]/.test(v) ? 'rtl' : 'ltr';
-  const pos = caretPos();
-  const frag = document.createDocumentFragment();
-  const slot = k => {
-    const s = document.createElement('button');
-    s.className = 'slot'; s.dataset.pos = k;
-    s.setAttribute('aria-label','ضع المؤشّر هنا');
-    if (k === pos) s.setAttribute('aria-current','true');
-    return s;
-  };
-  frag.appendChild(slot(0));
-  [...v].forEach((ch,idx) => {
-    const c = document.createElement('button');
-    c.className = 'cell' + (/\s/.test(ch) ? ' sp' : '');
-    c.textContent = /\s/.test(ch) ? '␣' : ch;
-    c.dataset.pos = idx + 1;
-    frag.appendChild(c);
-    frag.appendChild(slot(idx + 1));
-  });
-  stripEl.innerHTML = '';
-  stripEl.appendChild(frag);
-}
-
-/* بناء لوحة المفاتيح المساعدة بالمحارف الحقيقية */
+/* --------- مفاتيح مساعدة --------- */
 const KEYS = [
-  {k:'caret', v:-1, label:'\u25B6', title:'تحريك المؤشّر إلى اليمين'},
-  {k:'caret', v: 1, label:'\u25C0', title:'تحريك المؤشّر إلى اليسار'},
-  {k:'bk',          label:'\u232B', title:'حذف الحرف قبل المؤشّر'},
-  {k:'ins', v:'\u0651', cls:'dia', title:'شدّة'},
-  {k:'ins', v:'\u064E', cls:'dia', title:'فتحة'},
-  {k:'ins', v:'\u064F', cls:'dia', title:'ضمة'},
-  {k:'ins', v:'\u0650', cls:'dia', title:'كسرة'},
-  {k:'ins', v:'\u0652', cls:'dia', title:'سكون'},
-  {k:'ins', v:'\u0640', cls:'tiny', title:'تطويل'},
+  {k:'caret', v:-1, label:'\u25B6'}, {k:'caret', v:1, label:'\u25C0'}, {k:'bk', label:'\u232B'},
+  {k:'ins', v:'\u0651', cls:'dia'}, {k:'ins', v:'\u064E', cls:'dia'}, {k:'ins', v:'\u064F', cls:'dia'},
+  {k:'ins', v:'\u0650', cls:'dia'}, {k:'ins', v:'\u0652', cls:'dia'},
   {k:'ins', v:'ḍ', cls:'tiny'},{k:'ins', v:'ṣ', cls:'tiny'},{k:'ins', v:'ṭ', cls:'tiny'},
   {k:'ins', v:'ẓ', cls:'tiny'},{k:'ins', v:'ṛ', cls:'tiny'},{k:'ins', v:'ḥ', cls:'tiny'},
   {k:'ins', v:'ɛ', cls:'tiny'},{k:'ins', v:'ɣ', cls:'tiny'}
@@ -633,71 +674,200 @@ const KEYS = [
   for (const key of KEYS){
     const b = document.createElement('button');
     if (key.cls) b.className = key.cls;
-    if (key.title) { b.title = key.title; b.setAttribute('aria-label', key.title); }
     if (key.k === 'ins'){
-      b.dataset.ins = key.v;                                  // المحرف نفسه، لا رمزه
-      // علامات التشكيل تُعرض على دائرة نائبة ليظهر شكلها
+      b.dataset.ins = key.v;
       b.textContent = /[\u064B-\u0652]/.test(key.v) ? '\u25CC' + key.v : key.v;
     } else if (key.k === 'caret'){ b.dataset.caret = key.v; b.textContent = key.label; }
     else { b.dataset.bk = '1'; b.textContent = key.label; }
     box.appendChild(b);
   }
+  const tbox = $('#tifkeys');
+  for (const g of TIF_ORDER){
+    const b = document.createElement('button');
+    b.className = 'tk tif'; b.dataset.ins = g; b.textContent = g;
+    tbox.appendChild(b);
+  }
 })();
 
+function caretPos(){ return inEl.selectionStart ?? inEl.value.length; }
+function setCaret(p){ p = Math.max(0, Math.min(inEl.value.length, p)); inEl.focus(); inEl.setSelectionRange(p,p); drawStrip(); }
+function insertAt(txt){
+  const a = inEl.selectionStart ?? inEl.value.length, b = inEl.selectionEnd ?? a;
+  inEl.value = inEl.value.slice(0,a) + txt + inEl.value.slice(b);
+  render(); setCaret(a + txt.length);
+}
+function backspace(){
+  const a = inEl.selectionStart ?? inEl.value.length, b = inEl.selectionEnd ?? a;
+  if (a === b && a === 0) return;
+  if (a === b){ inEl.value = inEl.value.slice(0,a-1) + inEl.value.slice(a); render(); setCaret(a-1); }
+  else { inEl.value = inEl.value.slice(0,a) + inEl.value.slice(b); render(); setCaret(a); }
+}
+function drawStrip(){
+  const v = inEl.value;
+  if (!v){ stripEl.innerHTML = ''; return; }
+  stripEl.dir = /[\u0600-\u06FF]/.test(v) ? 'rtl' : 'ltr';
+  const pos = caretPos(), frag = document.createDocumentFragment();
+  const slot = k => { const s = document.createElement('button'); s.className='slot'; s.dataset.pos=k;
+    if (k === pos) s.setAttribute('aria-current','true'); return s; };
+  frag.appendChild(slot(0));
+  [...v].forEach((ch,idx) => {
+    const c = document.createElement('button');
+    c.className = 'cell' + (/\s/.test(ch) ? ' sp' : '') + (/[\u2D30-\u2D7F]/.test(ch) ? ' tif' : '');
+    c.textContent = /\s/.test(ch) ? '␣' : ch; c.dataset.pos = idx + 1;
+    frag.appendChild(c); frag.appendChild(slot(idx + 1));
+  });
+  stripEl.innerHTML = ''; stripEl.appendChild(frag);
+}
 stripEl.addEventListener('mousedown', e => e.preventDefault());
-stripEl.addEventListener('click', e => {
-  const t = e.target.closest('[data-pos]');
-  if (t) setCaret(parseInt(t.dataset.pos, 10));
-});
-$('#keys').addEventListener('mousedown', e => e.preventDefault());
-$('#keys').addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.caret) setCaret(caretPos() + parseInt(b.dataset.caret,10));
-  else if (b.dataset.bk) backspace();
-  else if (b.dataset.ins) insertAt(b.dataset.ins);
-});
+stripEl.addEventListener('click', e => { const t = e.target.closest('[data-pos]'); if (t) setCaret(+t.dataset.pos); });
+for (const id of ['#keys','#tifkeys']){
+  $(id).addEventListener('mousedown', e => e.preventDefault());
+  $(id).addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.caret) setCaret(caretPos() + (+b.dataset.caret));
+    else if (b.dataset.bk) backspace();
+    else if (b.dataset.ins) insertAt(b.dataset.ins);
+  });
+}
 ['input','click','keyup','select','focus'].forEach(ev => inEl.addEventListener(ev, drawStrip));
 
-/* ============ جدول المطابقة ============ */
-const TBL_LAT = [
-  ['ou','ⵓ','تُعالج قبل o و u المفردين؛ وأمام حرف علة تصير ⵡ'],
-  ['ch, sh, š','ⵛ',''],['kh, x','ⵅ',''],['gh, ɣ','ⵖ',''],['gw','ⴳⵯ','ⴳ + تامّاطارت ⵯ'],['kw','ⴽⵯ',''],['qw','ⵇⵯ',''],['ghw','ⵖⵯ',''],
-  ['dj, j','ⵊ','الجيم المعطشة'],['g, gu','ⴳ','والتضعيف ⴳⴳ لا رمز خاص'],['gy','ⴴ','موسَّع: ʝ'],['th, dh, ḍh, bh','ⵝ ⴸ ⴺ ⴲ','عند تفعيل الحروف الموسّعة'],
-  ['a','ⴰ',''],['b','ⴱ',''],['d','ⴷ',''],['ḍ / d.','ⴹ','الدال المفخمة'],['e','ⴻ','صوت الإرخاء'],
-  ['f','ⴼ',''],['k, ck','ⴽ',''],['h','ⵀ','هـ'],['ḥ / h.','ⵃ','ح'],['q','ⵇ','ق'],['i','ⵉ',''],
-  ['l','ⵍ',''],['m','ⵎ',''],['n','ⵏ',''],['u, o','ⵓ',''],['w','ⵡ',''],['r','ⵔ',''],
-  ['ṛ / r.','ⵕ','ر مفخمة'],['s, c(+e,i)','ⵙ',''],['ṣ / s.','ⵚ',''],['t, th','ⵜ',''],['ṭ / t.','ⵟ',''],
-  ['y','ⵢ','بجوار حرف علة، وإلا ⵉ'],['z','ⵣ',''],['ẓ / z.','ⵥ',''],['ɛ, 3','ⵄ','ع'],
-  ['p','ⵒ',''],['v','ⵠ','']
-];
-const TBL_AR = [
-  ['ا أ آ ى / الفتحة','ⴰ','تُدمج الفتحة مع الألف'],['إ / الكسرة','ⵉ','الهمزة المكسورة صوت ⵉ: إمازيغن ← ⵉⵎⴰⵣⵉⵖⵏ'],['و / الضمة','ⵓ','أو ⵡ حسب الموضع'],
-  ['ي / الكسرة','ⵉ','أو ⵢ حسب الموضع'],['السكون','—','يُهمل وتتكفل قاعدة ⴻ'],
-  ['الشدة','تكرار الحرف','دّ ← ⴷⴷ'],['ب','ⴱ',''],['گ ݣ ڭ','ⴳ',''],['د ذ','ⴷ',''],['ض','ⴹ',''],
-  ['ف','ⴼ',''],['ك','ⴽ',''],['ه','ⵀ',''],['ح','ⵃ',''],['خ','ⵅ',''],['ق','ⵇ',''],['ج','ⵊ',''],
-  ['ل','ⵍ',''],['م','ⵎ',''],['ن','ⵏ',''],['ر','ⵔ',''],['غ','ⵖ',''],['س','ⵙ',''],['ص','ⵚ',''],
-  ['ش چ','ⵛ',''],['ت ث ة','ⵜ','التاء المربوطة تاءً صريحة'],['ط','ⵟ',''],['ع','ⵄ',''],['ز','ⵣ',''],
-  ['ظ','ⵥ',''],['پ','ⵒ',''],['ڤ ڥ','ⵠ','']
-];
-function drawTable(which){
-  const rows = which === 'lat' ? TBL_LAT : TBL_AR;
-  const head = which === 'lat'
-    ? '<tr><th>المدخل اللاتيني</th><th>تيفيناغ</th><th>يونيكود</th><th>ملاحظة</th></tr>'
-    : '<tr><th>المدخل العربي</th><th>تيفيناغ</th><th>يونيكود</th><th>ملاحظة</th></tr>';
-  const body = rows.map(([a,g,note]) => {
-    const code = /[\u2D30-\u2D7F]/.test(g) ? [...g].map(U).join(' ') : '—';
-    const cell = which === 'lat' ? `<td class="l">${a}</td>` : `<td>${a}</td>`;
-    return `<tr>${cell}<td class="g tif">${g}</td><td class="u">${code}</td><td>${note}</td></tr>`;
-  }).join('');
-  $('#tbl').innerHTML = head + body;
+/* --------- العرض --------- */
+function render(){
+  const src = inEl.value;
+  const toTif = direction === 'to';
+  outEl.classList.toggle('tif', toTif);
+  outEl.classList.toggle('rtl', !toTif && target === 'ar');
+  if (!src.trim()){
+    outEl.textContent = toTif ? 'ⴰⵣⵓⵍ' : (target === 'ar' ? 'أزول' : 'azul');
+    outEl.classList.add('empty'); $('#count').textContent = ''; traceEl.innerHTML = ''; return;
+  }
+  const tokens = convert(src, mode, opts());
+  const text = tokens.map(t => t.ch).join('');
+  outEl.textContent = text; outEl.classList.remove('empty');
+  $('#count').textContent = text.replace(/\s/g,'').length + ' ' + T().chars;
+  if (showTrace){
+    const frag = document.createDocumentFragment();
+    let n = 0;
+    for (const t of tokens){
+      if (/^\s+$/.test(t.ch)) continue;
+      const d = document.createElement('span');
+      d.className = 'pair' + (t.kind === 'ins' ? ' ins' : t.kind === 'raw' ? ' raw' : '');
+      const b = document.createElement('b'); b.textContent = t.ch;
+      if (/[\u2D30-\u2D7F]/.test(t.ch)) b.className = 'tif';
+      const i = document.createElement('i'); i.textContent = t.src;
+      if (/[\u2D30-\u2D7F]/.test(t.src)) i.className = 'tif';
+      d.append(b,i); frag.appendChild(d);
+      if (++n > 400) break;
+    }
+    traceEl.innerHTML = ''; traceEl.appendChild(frag);
+  }
 }
-document.querySelectorAll('.seg [data-tab]').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.seg [data-tab]').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+
+function applyLang(){
+  const t = T();
+  document.documentElement.lang = lang;
+  document.documentElement.dir = t.dir;
+  $('#t-title').textContent = t.title;
+  $('#t-sub').innerHTML = t.sub.replace('IRCAM','IRCAM' + FLAG);
+  $('#t-edit').textContent = t.edit;
+  $('#copy').textContent = t.copy;
+  $('#clear').textContent = t.clear;
+  $('#trace-toggle').textContent = showTrace ? t.traceOff : t.traceOn;
+  $('#t-h-opts').textContent = t.hOpts;
+  $('#t-h-rules').textContent = t.hRules;
+  $('#t-h-table').textContent = t.hTable;
+  $('#t-note').textContent = t.note;
+  $('#t-foot').textContent = t.foot;
+  document.querySelectorAll('#themeseg button').forEach((b,i) => b.textContent = t.theme[i]);
+  document.querySelectorAll('#dirseg button').forEach((b,i) => b.textContent = t.dirs[i]);
+  document.querySelectorAll('#modeseg button').forEach((b,i) => b.textContent = t.modes[i]);
+  document.querySelectorAll('#targetseg button').forEach((b,i) => b.textContent = t.targets[i]);
+  document.querySelectorAll('#tabseg button').forEach((b,i) => b.textContent = t.tabs[i]);
+  inEl.placeholder = direction === 'to' ? t.phTo : t.phFrom;
+  const chips = $('#chips'); chips.innerHTML = '';
+  for (const ex of t.ex){
+    const b = document.createElement('button');
+    b.className = 'chip' + (/[\u2D30-\u2D7F]/.test(ex) ? ' tif' : '');
+    b.textContent = ex; b.dataset.ex = ex;
+    chips.appendChild(b);
+  }
+  buildOptions(); buildRules();
+  drawTable(document.querySelector('#tabseg [aria-pressed="true"]').dataset.tab);
+  render();
+}
+
+function applyDirection(){
+  const toTif = direction === 'to';
+  $('#modeseg').hidden = !toTif;
+  $('#targetseg').hidden = toTif;
+  $('#tifkeys').hidden = toTif;
+  $('#keys').hidden = !toTif;
+  inEl.classList.toggle('tif', !toTif);
+  inEl.placeholder = toTif ? T().phTo : T().phFrom;
+  buildOptions(); render(); drawStrip();
+}
+
+document.querySelectorAll('#langseg button').forEach(b => b.addEventListener('click', () => {
+  lang = b.dataset.lang;
+  document.querySelectorAll('#langseg button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  applyLang();
+}));
+document.querySelectorAll('#themeseg button').forEach(b => b.addEventListener('click', () => {
+  document.documentElement.setAttribute('data-theme', b.dataset.theme);
+  document.querySelectorAll('#themeseg button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+}));
+document.querySelectorAll('#dirseg button').forEach(b => b.addEventListener('click', () => {
+  direction = b.dataset.dir;
+  document.querySelectorAll('#dirseg button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  applyDirection();
+}));
+document.querySelectorAll('#modeseg button').forEach(b => b.addEventListener('click', () => {
+  mode = b.dataset.mode;
+  document.querySelectorAll('#modeseg button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  render();
+}));
+document.querySelectorAll('#targetseg button').forEach(b => b.addEventListener('click', () => {
+  target = b.dataset.target;
+  document.querySelectorAll('#targetseg button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  buildOptions(); render();
+}));
+document.querySelectorAll('#tabseg button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#tabseg button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
   drawTable(b.dataset.tab);
 }));
-drawTable('lat');
-render();
-drawStrip();
+$('#trace-toggle').addEventListener('click', e => {
+  showTrace = !showTrace;
+  e.currentTarget.setAttribute('aria-pressed', String(showTrace));
+  e.currentTarget.textContent = showTrace ? T().traceOff : T().traceOn;
+  traceEl.hidden = !showTrace; render();
+});
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  const ex = b.dataset.ex;
+  const isTif = /[\u2D30-\u2D7F]/.test(ex);
+  if (isTif !== (direction === 'from')){
+    direction = isTif ? 'from' : 'to';
+    document.querySelectorAll('#dirseg button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.dir === direction)));
+    applyDirection();
+  }
+  inEl.value = ex; render(); drawStrip();
+});
+$('#clear').addEventListener('click', () => { inEl.value=''; render(); drawStrip(); inEl.focus(); });
+$('#copy').addEventListener('click', async e => {
+  const txt = outEl.textContent, btn = e.currentTarget, old = btn.textContent;
+  try { await navigator.clipboard.writeText(txt); }
+  catch { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  btn.textContent = T().copied; setTimeout(()=>btn.textContent = old, 1200);
+});
+inEl.addEventListener('input', render);
+
+/* بدء التشغيل: لغة الواجهة تتبع لغة المتصفّح */
+(function start(){
+  const nav = (navigator.language || 'ar').slice(0,2);
+  if (nav === 'fr' || nav === 'en') lang = nav;
+  document.querySelectorAll('#langseg button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.lang === lang)));
+  applyLang(); applyDirection();
+})();
 
 if ('serviceWorker' in navigator && location.protocol === 'https:'){
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
