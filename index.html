@@ -7,10 +7,11 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ⵜⵉⴼⵉⵏⴰⵖ">
-<meta name="theme-color" content="#0F1D2A">
+<meta name="theme-color" content="#A80D16">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ⵜⵉⴼⵉⵏⴰⵖ — Tifinagh Converter</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,8 +54,7 @@ body{background:var(--bg);color:var(--text);
   padding:calc(18px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(60px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
 
 header{display:flex;align-items:flex-start;gap:12px;padding:6px 0 12px;flex-wrap:wrap}
-.mark{width:44px;height:44px;flex:0 0 44px;border-radius:12px;display:grid;place-items:center;
-  background:var(--clay);color:#fff;font-size:26px;line-height:1}
+.mark{width:46px;height:46px;flex:0 0 46px;display:block;border-radius:11px}
 .htext{flex:1 1 220px;min-width:0}
 header h1{font-size:19px;font-weight:700;margin:0}
 header p{margin:2px 0 0;font-size:13px;color:var(--muted)}
@@ -157,7 +157,7 @@ footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-si
 <div class="wrap">
 
 <header>
-  <div class="mark tif">ⵣ</div>
+  <img class="mark" src="icon-192.png" alt="" width="46" height="46">
   <div class="htext">
     <h1 id="t-title"></h1>
     <p id="t-sub"></p>

@@ -1,9 +1,10 @@
 /* tifinagh converter — service worker
    v2: الصفحة تُجلب من الشبكة أولاً حتى يظهر أي تحديث فوراً،
    والبقية من الذاكرة أولاً لتبقى سريعة وتعمل دون إنترنت. */
-const CACHE = 'tifinagh-v2';
+const CACHE = 'tifinagh-v4';
 const CORE = ['./', './index.html', './manifest.webmanifest',
-              './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
+              './icon-192.png', './icon-512.png', './icon-maskable-512.png',
+              './apple-touch-icon.png', './favicon-64.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
